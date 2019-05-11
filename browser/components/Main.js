@@ -10,6 +10,7 @@ export default class Main extends Component {
       students: [],
       selectedStudent: {},
     };
+    this.selectStudent = this.selectStudent.bind(this);
   }
 
   componentDidMount() {
@@ -27,14 +28,20 @@ export default class Main extends Component {
     }
   }
 
-  selectStudent(studentId) {
-    return async () => {
-      const res = await axios.get(`/student/${studentId}`);
-      const student = res.data;
-      this.setState({
-        selectedStudent: student,
-      });
-    };
+  // selectStudent(studentId) {
+  //   return async () => {
+  //     const res = await axios.get(`/student/${studentId}`);
+  //     const student = res.data;
+  //     this.setState({
+  //       selectedStudent: student,
+  //     });
+  //   };
+  // }
+
+  selectStudent(student) {
+    return this.setState({
+      selectedStudent: student,
+    });
   }
 
   render() {
@@ -42,16 +49,22 @@ export default class Main extends Component {
       <div>
         <h1>Students</h1>
         <table>
-          <tbody>
+          <thead>
             <tr>
-              <td>
-                <strong>Name</strong>
-              </td>
+              <th>Name</th>
+              <th>Tests</th>
             </tr>
-            <StudentList students={this.state.students} />
+          </thead>
+          <tbody>
+            <StudentList
+              students={this.state.students}
+              selectStudent={this.selectStudent}
+            />
           </tbody>
         </table>
-        <SingleStudent selectedStudent={this.state.selectedStudent} />
+        {this.state.selectedStudent.id ? (
+          <SingleStudent selectedStudent={this.state.selectedStudent} />
+        ) : null}
       </div>
     );
   }

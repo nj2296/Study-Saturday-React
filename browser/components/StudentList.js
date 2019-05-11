@@ -6,7 +6,7 @@ const StudentList = props => {
       <tr key={student.id}>
         <td>{student.fullName}</td>
         <td>
-          <a>Details</a>
+          <a onClick={() => props.selectStudent(student)}>Details</a>
         </td>
       </tr>
     );
