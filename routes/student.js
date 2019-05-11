@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Student = require('../db/models/students');
+const Tests = require('../db/models/tests');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -12,7 +13,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let student = await Student.findById(req.params.id);
+    let student = await Student.findById(req.params.id, { include: [Tests] });
     if (student) {
       res.send(student);
     } else {
